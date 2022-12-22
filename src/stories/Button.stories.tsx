@@ -1,41 +1,37 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react"
+import { ComponentStory, ComponentMeta } from "@storybook/react"
 
-import { Button } from './Button';
+import { Button } from "../components/Button"
+import { ThemeContext } from "../app/context"
+import { makeStyles } from "../helpers/makeStyles"
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/Button',
+  title: "Example/Button",
   component: Button,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+  decorators: [
+    (storyFn) => {
+      const classes = makeStyles({
+        button: `color: white; background-color: #1976d2; padding:10px;borderRadius:5px`,
+      })
+      return (
+        <ThemeContext.Provider value={classes}>
+          {storyFn()}
+        </ThemeContext.Provider>
+      )
+    },
+  ],
   argTypes: {
-    backgroundColor: { control: 'color' },
+    backgroundColor: { control: "color" },
   },
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof Button>
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+const Template: ComponentStory<typeof Button> = (args) => {
+  return <Button {...args} />
+}
 
-export const Contained = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
+export const Contained = Template
 Contained.args = {
-  contained: true,
-  label: 'Contained',
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Button',
-};
-
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  label: 'Button',
-};
-
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
-  label: 'Button',
-};
+  label: "Contained",
+}
